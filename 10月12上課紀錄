@@ -1,0 +1,35 @@
+
+non-sentence 範例中  問號、驚嘆號
+
+<year>
+<month>
+<day>
+2021 20 18 How to do you?
+
+
+
+test1.xml
+6句
+185字，不包含title
+1184 字元，ASCII
+
+
+tfidf 跟 word2vec 關係？
+
+CBOW continuous bag of word
+Skip-gram ?? N-gram ??
+
+很多文件去做文字的統計
+下週把作業變成文件的比較器
+
+輸入兩個文件，字串的比對，第一個字元開始，
+
+第一個字元筆第一 個字元，以此類推，卻認識是不是一樣。
+
+看 xml 格式即可，第一個字元
+
+不包含 tag 。
+
+
+
+
