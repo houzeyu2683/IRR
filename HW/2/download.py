@@ -3,17 +3,28 @@
 ##
 ##  The packages.
 from selenium import webdriver
-import pandas, os, time, tqdm
-import re
-import time
+import pandas, os, tqdm, time
+
+'''
+內科 Internal Medicine
+胃腸科 Gastroenterology
+心臟內科 Cardiology
+新陳代謝科 Metabolism
+感控科 Infection Control
+腎臟科 Nephrology
+神經內科 Neurology
+胸腔內科 Chest Medicine
+外科 Surgery
+胸腔外科 Thoracic Surgery
+'''
 
 
 ##
 ##  The arguments.
-keyword  = 'b'
+keyword  = 'Gastroenterology'
 platform = "pubmed"
 site   = "https://pubmed.ncbi.nlm.nih.gov/"
-number = 10
+number = 50
 folder = "resource/txt/{}".format(keyword)
 os.makedirs(folder) if not os.path.isdir(folder) else None
 
@@ -37,6 +48,8 @@ for p in page:
     group['link'] += [i.get_attribute("href") for i in driver.find_elements_by_css_selector(".docsum-title")]
     pass
 
+link = pandas.DataFrame({"link":group['link']})
+link.to_csv(os.path.join(folder, "link.csv"), index=False)
 
 def remove(x, what=""):
 
@@ -77,9 +90,11 @@ for l in tqdm.tqdm(group['link'], total=len(group['link'])):
     group['abstract'] += [abstract]
     group['tag'] += [tag]
     group['author'] += [author]
+    time.sleep(0.8)
     pass
 
 driver.close()
+
 
 
 table = pandas.DataFrame(group)
