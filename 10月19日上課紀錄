@@ -1,0 +1,53 @@
+
+前面兩堂課說明第一章跟第二章
+
+第三章是容許錯誤式的搜尋。
+
+課本第四個章節是比較獨立的，索引的知識，把索引建好是搜尋系統是最重要， index constructure 。
+
+第五章，索引壓縮，有先索引 10 年用不了一次，如何壓縮，不講。
+
+第六章，詞向量。
+
+第七章，如何排序。
+
+第八章，如何評估 IR 系統的好壞。
+
+第九章，搜尋的時候發現到某些字不曾出現在資料庫裡面，為何找的到？
+ relevant feedback ，不滿意但可能是對的，查詢字拓展， query expansion 。
+ 
+ 第一個派系，先將文件分類
+ 
+第 16, 17, 18 章節分群的技術
+ 
+ 
+ 
+ 
+CKIP python 
+斷詞
+http://13.231.129.69/2020/12/31/python-gkiptagger-%E5%9C%8B%E7%94%A2%E6%96%B7%E8%A9%9E%E5%B7%A5%E5%85%B7/
+
+lemmatization
+https://www.cnblogs.com/jclian91/p/9898511.html
+
+
+stemming lemmazation 代價？
+
+skip pointer 目的？
+
+字典是誰做的？
+字典的好壞是否直接影響搜尋引擎？
+
+
+Anchor text 舉個範例？
+
+如何定義情緒？
+
+
+
+
+
+
+ 
+ 
+
