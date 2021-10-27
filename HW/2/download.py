@@ -21,7 +21,7 @@ import pandas, os, tqdm, time
 
 ##
 ##  The arguments.
-keyword  = 'Gastroenterology'
+keyword  = 'Orthopedics'
 platform = "pubmed"
 site   = "https://pubmed.ncbi.nlm.nih.gov/"
 number = 50
@@ -33,6 +33,7 @@ os.makedirs(folder) if not os.path.isdir(folder) else None
 ##
 option = webdriver.chrome.options.Options()
 option.binary_location = "/usr/bin/google-chrome"
+# option.add_argument('--no-sandbox')
 driver = webdriver.Chrome(options=option, executable_path='driver/chrome')
 page = range(1, number+1, 1)
 group = {
@@ -74,7 +75,16 @@ for l in tqdm.tqdm(group['link'], total=len(group['link'])):
 
     driver.get(l)
     title = driver.find_element_by_css_selector(".heading-title").text
-    abstract = driver.find_element_by_css_selector("#enc-abstract p").text
+    try:
+        
+        abstract = driver.find_element_by_css_selector("#enc-abstract p").text
+        pass
+
+    except:
+
+        abstract = None
+        pass
+
     try:
 
         tag = driver.find_element_by_css_selector("#enc-abstract+ p").text.split(": ")[-1]
@@ -93,9 +103,10 @@ for l in tqdm.tqdm(group['link'], total=len(group['link'])):
     time.sleep(0.8)
     pass
 
-driver.close()
+
 
 
 
 table = pandas.DataFrame(group)
 table.to_csv(os.path.join(folder, "{}.csv".format(keyword)), index=False)
+driver.close()
