@@ -1,0 +1,92 @@
+
+
+拼錯字如果找錯了，最接近的字
+
+要說明有用 stop word 跟沒有用 stop word 之間的差別。
+要講故事。
+
+你能夠講出道理就可以。
+
+長尾效應
+
+google 再做 index
+TREC 再做答案
+
+
+告訴我，某一些字經過正規化（porter？ stemming）
+它跟原來的字的關係？
+build building 
+
+拼字的時候
+例如 covid-19 跟 covid 照理獎是不同字，你如何處理這兩個字？
+partial match 
+
+
+認為數學的東西，要重複的教、重複的學。
+
+
+controlled vocabulary: 這些字不是你可以自己去更動的，例如：電腦大詞典、土木大詞典。
+
+MeSH：生醫相關知識的字典
+
+
+Content words 比較重要，Function words 相對不重要
+但是 從哪裡到哪裡 ， function words 其實還是滿重要的。
+
+
+作業：
+有用 stop word 沒有 stop word 差別
+有用 porter 沒有用的差別
+要嘴出來。
+
+找出來的東西有多有用？
+Ranked retrieval
+ match 的程度？
+
+要問
+Joccard score 範例？
+
+
+
+
+
+idf 的 i 就是 inverse 也就是放在分母。
+
+
+
+
+two word vector 相似
+歐式距離是個很遭的
+當 word vector 它維度變高的時候，它就沒有低維度的特性。
+
+無法面面俱到，簡單好用不會出太大的錯誤。
+
+要問
+q 代表的是 word vector
+d 代表的是 document vector 還是 word vector？
+q舉個例子？
+
+要問
+word vector 標準化是通通壓成 1 ？
+word vector 的長度有沒有意義？如何去理解？
+
+
+recall 怎模算？舉個例子？
+
+
+
+NER Named Entity Recognition
+
+
+
+
+
+
+
+
+
+
+
+
+
+

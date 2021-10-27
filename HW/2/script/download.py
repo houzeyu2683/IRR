@@ -1,36 +1,26 @@
 
 
-##
 ##  The packages.
 from selenium import webdriver
 import pandas, os, tqdm, time
 
+
 '''
-內科 Internal Medicine
-胃腸科 Gastroenterology
-心臟內科 Cardiology
-新陳代謝科 Metabolism
-感控科 Infection Control
-腎臟科 Nephrology
-神經內科 Neurology
-胸腔內科 Chest Medicine
-外科 Surgery
-胸腔外科 Thoracic Surgery
+為了演示作業二的 zipf 分佈，會需要事前下載一定數量的文本資料，
+以下針對 "pubmed" 網站進行文章摘要下載。
 '''
 
 
-##
-##  The arguments.
-keyword  = 'Gastroenterology'
+##  The arguments before get the text data.
+keyword  = 'COVID-19'
 platform = "pubmed"
 site   = "https://pubmed.ncbi.nlm.nih.gov/"
 number = 50
-folder = "resource/txt/{}".format(keyword)
+folder = "resource/csv/{}".format(keyword)
 os.makedirs(folder) if not os.path.isdir(folder) else None
 
 
-##
-##
+##  Get the urls of article.
 option = webdriver.chrome.options.Options()
 option.binary_location = "/usr/bin/google-chrome"
 driver = webdriver.Chrome(options=option, executable_path='driver/chrome')
@@ -48,9 +38,13 @@ for p in page:
     group['link'] += [i.get_attribute("href") for i in driver.find_elements_by_css_selector(".docsum-title")]
     pass
 
+
+##  Convert the links to the table.
 link = pandas.DataFrame({"link":group['link']})
 link.to_csv(os.path.join(folder, "link.csv"), index=False)
 
+
+##  Remove the "" in the list.
 def remove(x, what=""):
 
     output = []
@@ -70,6 +64,7 @@ def remove(x, what=""):
     return(output)
 
 
+##  Get the information base on links.
 for l in tqdm.tqdm(group['link'], total=len(group['link'])):
 
     driver.get(l)
@@ -96,6 +91,6 @@ for l in tqdm.tqdm(group['link'], total=len(group['link'])):
 driver.close()
 
 
-
+##  Convert the information to table.
 table = pandas.DataFrame(group)
 table.to_csv(os.path.join(folder, "{}.csv".format(keyword)), index=False)
