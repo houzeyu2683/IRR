@@ -2,6 +2,7 @@
 
 import pandas
 from flask import Flask, request
+from plotnine.geoms import geom_bar
 application = Flask(__name__)
 
 
@@ -36,6 +37,20 @@ def distribution():
         pass
 
     return
+
+
+import io
+import base64
+from plotnine import ggplot, aes
+@application.route('/plot')
+def build_plot():
+
+    img = io.BytesIO()
+
+    y = [1,2,3,4,5]
+    x = [0,2,1,3,4]
+    plot = ggplot(aes(x,y)) + geom_bar()
+    return(plot)
 
 
 if __name__ == "__main__":
