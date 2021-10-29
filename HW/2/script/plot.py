@@ -47,12 +47,12 @@ picture = {
     "log default":plotly.bar(table['default'].head(top), x='word', y='log frequency', labels=dict(word="")),
     "log porter":plotly.bar(table['porter'].head(top), x='word', y='log frequency', labels=dict(word=""))
 }
-figure = make_subplots(rows=1, cols=4, subplot_titles=("計算 word 頻率", "使用 porter 演算法計算 word 頻率", "log( 計算 word 頻率 )", "log( 使用 porter 演算法計算 word 頻率 )"))
+figure = make_subplots(rows=1, cols=4, subplot_titles=("title A", "title B", "title C", "title D"))
 figure.add_trace(picture["default"]['data'][0], row=1, col=1)
 figure.add_trace(picture["porter"]['data'][0], row=1, col=2)
 figure.add_trace(picture["log default"]['data'][0], row=1, col=3)
 figure.add_trace(picture["log porter"]['data'][0], row=1, col=4)
-figure.update_layout(height=500, width=1500, title_text="用 {} 篇的摘要，挑選頻率最高的 {} 個 word 來畫圖。".format(size, top))
+figure.update_layout(height=500, width=1500, title_text="title total")
 html = to_html(figure)
 figure.show()
 
