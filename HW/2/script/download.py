@@ -5,10 +5,6 @@
 from selenium import webdriver
 import pandas, os, tqdm, time
 
-'''
-Covid-19, Stroke, Myocardial Infarction, influenza, asthma
-'''
-
 
 ##
 ##  The arguments.
@@ -143,7 +139,7 @@ for k in keyword:
 
 ##  
 ##  Merge all table together.
-path, folder, _ = next(os.walk('./resource/csv'))
+path, folder = 'resource/csv', ['asthma', 'Covid-19', "influenza", "Myocardial lnfarction", 'Stroke']
 group = []
 for f in folder:
 
@@ -154,8 +150,8 @@ for f in folder:
     group += [t]
     pass
 
-table = pandas.concat(group).reset_index(drop=True)
-table.to_csv(os.path.join(path, "group.csv"), index=False)
+data = pandas.concat(group).reset_index(drop=True)
+data.to_csv(os.path.join(path, "data.csv"), index=False)
 
 # group = []
 # for k in keyword:
@@ -168,4 +164,22 @@ table.to_csv(os.path.join(path, "group.csv"), index=False)
 # group = pandas.concat(group)
 # group = group.drop_duplicates(subset=['title'])
 # group.to_csv("resource/csv/group.csv", index=False)
+
+
+# ##
+# ##  Some different keywords get some the contents.
+# item = []
+# for t in group['title'].unique():
+
+#     # t = 'Challenges faced in managing adult asthma: A perspective from Asian countries'
+#     i = group.loc[group['title']==t]
+#     if(len(i)==1):
+#         item += [i]
+#         pass
+#     else:
+#         ";".join(i['keyword'].unique().tolist())
+#     pass
+
+
+
 
