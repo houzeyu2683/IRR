@@ -92,6 +92,7 @@ class dictionary:
 
                 table = pandas.DataFrame.from_dict(dict(Counter(self.word)), orient='index').reset_index()
                 table.columns = ['word', 'frequency']
+                table = table.sort_values('frequency', ascending=False).reset_index(drop=True)
                 return(table)
 
             pass
