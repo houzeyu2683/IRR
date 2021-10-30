@@ -8,13 +8,13 @@ import pandas, os, tqdm, time
 
 ##
 ##  The arguments.
-# keyword  = ["Covid-19", "Stroke", "Myocardial Infarction", "influenza", "asthma"]
-keyword = ["asthma"]
+# keyword  = ["Covid-19", "Stroke", "Myocardial Infarction", "influenza", "asthma", "chest cavity"]
+keyword = ["chest cavity"]
 for k in keyword:
 
     platform = "pubmed"
     site   = "https://pubmed.ncbi.nlm.nih.gov/"
-    number = 1000
+    number = 100
     folder = "resource/csv/{}".format(k)
     os.makedirs(folder) if not os.path.isdir(folder) else None
 
@@ -130,7 +130,6 @@ for k in keyword:
         time.sleep(1)
         pass
 
-
     table = pandas.DataFrame(group)
     table.to_csv(os.path.join(folder, "{}.csv".format(k)), index=False)
     driver.close()
@@ -139,7 +138,7 @@ for k in keyword:
 
 ##  
 ##  Merge all table together.
-path, folder = 'resource/csv', ['asthma', 'Covid-19', "influenza", "Myocardial lnfarction", 'Stroke']
+path, folder = 'resource/csv', ['asthma', 'Covid-19', "influenza", "Myocardial Infarction", 'Stroke', "chest cavity"]
 group = []
 for f in folder:
 
@@ -152,34 +151,4 @@ for f in folder:
 
 data = pandas.concat(group).reset_index(drop=True)
 data.to_csv(os.path.join(path, "data.csv"), index=False)
-
-# group = []
-# for k in keyword:
-
-#     p = os.path.join('resource/csv/{}/{}.csv'.format(k, k))
-#     t = pandas.read_csv(p)
-#     group += [t]
-#     pass
-
-# group = pandas.concat(group)
-# group = group.drop_duplicates(subset=['title'])
-# group.to_csv("resource/csv/group.csv", index=False)
-
-
-# ##
-# ##  Some different keywords get some the contents.
-# item = []
-# for t in group['title'].unique():
-
-#     # t = 'Challenges faced in managing adult asthma: A perspective from Asian countries'
-#     i = group.loc[group['title']==t]
-#     if(len(i)==1):
-#         item += [i]
-#         pass
-#     else:
-#         ";".join(i['keyword'].unique().tolist())
-#     pass
-
-
-
 

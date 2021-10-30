@@ -2,50 +2,39 @@
 
 import Levenshtein
 import pandas
-import tqdm
-import extension
 
 
 '''
-請輸入一個搜尋字，從資料表中找出距離比較近的搜尋字，並將分數顯示出來。
+輸入搜索字，顯示結果數量上限，根據指定的 word frequency 表中去搜尋距離最近的結果。
 '''
 
 
 word = "covid"
+top = 20
+size = [1000, 5000, 10000, 49788]
 
 
-tubulation = extension.tubulation(path="resource/csv/data.csv")
-tubulation.read()
-tubulation.table.dropna(subset=['abstract'], inplace=True)
-size = 100
-selection = tubulation.table.sample(size, random_state=0)
+summary = []
+for s in size:
 
+    table = {
+        'default':pandas.read_csv("resource/csv/frequency/{}/default.csv".format(s), na_filter = False),
+        'porter':pandas.read_csv("resource/csv/frequency/{}/porter.csv".format(s), na_filter = False)
+    }
+    group = {
+        '{}-word'.format(s):[],
+        '{}-score'.format(s):[]
+    }
+    for iteration, item in table['default'].iterrows():
 
-content = " ".join(selection['abstract'].tolist())
-article = extension.article(content=content)
-pass
+        group['{}-word'.format(s)] += [item['word']]
+        group['{}-score'.format(s)] += [Levenshtein.distance(word, item['word'])]
+        pass
 
-dictionary = {
-    'default':extension.dictionary(word=article.get(what='word', normalization='default')),
-    'porter':extension.dictionary(word=article.get(what='word', normalization='porter'))
-}
-table = {
-    'default':dictionary['default'].convert(what='word', to='table'),
-    'porter':dictionary['porter'].convert(what='word', to='table')
-}
-
-group = {
-    'word':[],
-    'score':[]
-}
-for iteration, item in table['default'].iterrows():
-
-    group['word'] += [item['word']]
-    group['score'] += [Levenshtein.distance(word, item['word'])]
+    group = pandas.DataFrame(group).sort_values('{}-score'.format(s)).reset_index(drop=True)
+    summary += [group.head(top)]
     pass
 
-group = pandas.DataFrame(group).sort_values('score').reset_index(drop=True)
-html = group.to_html()
-
-
+summary = pandas.concat(summary,axis=1)
+response = summary.to_html()
 

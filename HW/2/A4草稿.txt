@@ -1,0 +1,15 @@
+
+運行環境：
+  ubuntu + python 3.7 (miniconda)
+使用套件：
+  selenium, pandas tqdm, flask, numpy, plotly, levenshtein.
+安裝套件方式：
+  pip install -r requirement.txt
+  
+    
+1. script/download.py 是收集 pubmed 網站中的文章摘要腳本，輸出結果是 csv 格式，
+   位置是 resource/csv/data.csv 檔，約 50000 篇的文章摘要。
+2. 作業將以 1000 、 5000 、 10000 、 50000 篇的文章來
+   顯示 word frequency histogram 以及 edit distance 分數結果。
+   
+

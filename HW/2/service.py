@@ -2,7 +2,8 @@
 
 import extension
 
-
+import Levenshtein
+import datetime
 import pandas
 import numpy
 from flask import Flask, request
@@ -17,7 +18,7 @@ application = Flask(__name__)
 @application.route("/", methods=['GET'])
 def root():
 
-    message = '這是資訊檢索作業的首頁。'
+    message = '這是資訊檢索作業二的首頁。'
     return(message)
 
 
@@ -38,23 +39,66 @@ def plot():
 
     if(request.method=='GET'):
 
-        tubulation = extension.tubulation(path="resource/csv/data.csv")
-        tubulation.read()
-        tubulation.table.dropna(subset=['abstract'], inplace=True)
-        pass
+        start = datetime.datetime.now()
+
 
         size = request.values.get('size')
         if(size):
 
             print("找到 size 值，將會使用 {} 篇文本資料。".format(size))
-            selection = tubulation.table.sample(int(size), random_state=0)
+            size = int(size)
+            if(size in [1000, 5000, 10000, 50000]):
+
+                print("載入事前整理好的 word frequency 表。")
+                table = {}
+                table['default'] = pandas.read_csv("resource/csv/frequency/{}/default.csv".format(size))
+                table['porter'] = pandas.read_csv("resource/csv/frequency/{}/porter.csv".format(size))
+                pass
+            
+            else:
+
+                if(size>=50000):
+
+                    print('指定數量超過上限，使用 50000 篇文章。')
+                    size = 50000
+                    table = {}
+                    table['default'] = pandas.read_csv("resource/csv/frequency/{}/default.csv".format(size))
+                    table['porter'] = pandas.read_csv("resource/csv/frequency/{}/porter.csv".format(size))
+                    pass
+                
+                else:
+
+                    print('指定數量沒有超過上限。')
+                    print("事前沒有整理，針對指定的 size 進行處理，生成 word frequency 表。")
+                    tubulation = extension.tubulation(path="resource/csv/data.csv")
+                    tubulation.read()
+                    tubulation.table.dropna(subset=['abstract'], inplace=True)
+                    selection = tubulation.table.sample(size, random_state=0)
+                    content = " ".join(selection['abstract'].tolist())
+                    article = extension.article(content=content)
+                    dictionary = {
+                        'default':extension.dictionary(word=article.get(what='word', normalization='default')),
+                        'porter':extension.dictionary(word=article.get(what='word', normalization='porter'))
+                    }
+                    table = {
+                        'default':dictionary['default'].convert(what='word', to='table'),
+                        'porter':dictionary['porter'].convert(what='word', to='table')
+                    }
+                    table['default']['log frequency'] = numpy.log(table['default']['frequency'])
+                    table['porter']['log frequency'] = numpy.log(table['porter']['frequency'])                
+                    pass
+
+                pass
+
             pass
 
         else:
 
-            print("找不到 size 值，將使用全部的文本。")
-            size = len(tubulation.table)
-            selection = tubulation.table
+            print("找不到 size 值，使用 50000 篇文章。")
+            size = 50000
+            table = {}
+            table['default'] = pandas.read_csv("resource/csv/frequency/{}/default.csv".format(size))
+            table['porter'] = pandas.read_csv("resource/csv/frequency/{}/porter.csv".format(size))
             pass
 
         top = request.values.get('top')
@@ -70,22 +114,10 @@ def plot():
             top = 100
             pass
 
-        content = " ".join(selection['abstract'].tolist())
-        article = extension.article(content=content)
-        pass
+        end = datetime.datetime.now()
+        time = (end-start).seconds
 
-        dictionary = {
-            'default':extension.dictionary(word=article.get(what='word', normalization='default')),
-            'porter':extension.dictionary(word=article.get(what='word', normalization='porter'))
-        }
-        table = {
-            'default':dictionary['default'].convert(what='word', to='table'),
-            'porter':dictionary['porter'].convert(what='word', to='table')
-        }
-        table['default']['log frequency'] = numpy.log(table['default']['frequency'])
-        table['porter']['log frequency'] = numpy.log(table['porter']['frequency'])
-        pass
-
+        ##  畫圖。
         picture = {
             "default":plotly.bar(table['default'].head(top), x='word', y='frequency', labels=dict(word="")),
             "porter":plotly.bar(table['porter'].head(top), x='word', y='frequency', labels=dict(word="")),
@@ -97,10 +129,61 @@ def plot():
         figure.add_trace(picture["porter"]['data'][0], row=1, col=2)
         figure.add_trace(picture["log default"]['data'][0], row=1, col=3)
         figure.add_trace(picture["log porter"]['data'][0], row=1, col=4)
-        figure.update_layout(height=500, width=1500, title_text="用 {} 篇的摘要，挑選頻率最高的 {} 個 word 來畫圖。".format(size, top))
+        figure.update_layout(height=500, width=1500, title_text="用 {} 篇的摘要，挑選頻率最高的 {} 個 word 來畫圖。（載入時間：{}秒）".format(size, top, time))
         response = to_html(figure)
         return(response)
 
+    pass
+
+
+@application.route("/search", methods=['GET'])
+def search():
+    
+    if(request.method=='GET'):
+
+        word = request.values.get('word')
+        if(word==None):
+
+            response = "請輸入想要搜尋的字（英文）。"
+            return(response)
+
+        top = request.values.get('top')
+        if(top==None):
+
+            top = 100
+            pass
+        
+        else:
+
+            top = int(top)
+            pass
+
+        size = [1000, 5000, 10000, 50000]
+        summary = []
+        for s in size:
+
+            table = {
+                'default':pandas.read_csv("resource/csv/frequency/{}/default.csv".format(s), na_filter = False),
+                'porter':pandas.read_csv("resource/csv/frequency/{}/porter.csv".format(s), na_filter = False)
+            }
+            group = {
+                '{}-word'.format(s):[],
+                '{}-score'.format(s):[]
+            }
+            for _, item in table['default'].iterrows():
+
+                group['{}-word'.format(s)] += [item['word']]
+                group['{}-score'.format(s)] += [Levenshtein.distance(word, item['word'])]
+                pass
+
+            group = pandas.DataFrame(group).sort_values('{}-score'.format(s)).reset_index(drop=True)
+            summary += [group.head(top)]
+            pass
+
+        summary = pandas.concat(summary,axis=1)
+        response = summary.to_html()
+        return(response)
+    
     pass
 
 
