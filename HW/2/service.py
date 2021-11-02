@@ -134,6 +134,8 @@ def plot():
         time = (end-start).seconds
 
         ##  畫圖。
+        print("table['default'] word size: {}".format(len(table['default'])))
+        print("table['porter'] word size: {}".format(len(table['porter'])))
         picture = {
             "default":plotly.bar(table['default'].head(top), y='frequency', x='word', labels=dict(word="")),
             "porter":plotly.bar(table['porter'].head(top), y='frequency', x='word', labels=dict(word="")),
@@ -149,7 +151,8 @@ def plot():
         figure.add_trace(picture["porter"]['data'][0], row=1, col=2)
         figure.add_trace(picture["log default"]['data'][0], row=1, col=3)
         figure.add_trace(picture["log porter"]['data'][0], row=1, col=4)
-        figure.update_layout(height=500, width=1500, title_text="用 {} 篇的摘要，挑選頻率最高的 {} 個 word 來畫圖。（載入時間：{}秒）".format(size, top, time))
+        # figure.update_layout(height=500, width=1500, title_text="用 {} 篇的摘要，挑選頻率最高的 {} 個 word 來畫圖。（載入時間：{}秒）".format(size, top, time))
+        figure.update_layout(height=500, width=1500, title_text="用 {} 篇的摘要，挑選頻率最高的 {} 個 word 來畫圖。".format(size, top))
         response = to_html(figure)
         return(response)
 
