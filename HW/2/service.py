@@ -3,11 +3,13 @@
 import extension
 
 
+import asyncio
 import os
 import Levenshtein
 import datetime
 import pandas
 import numpy
+import tqdm
 from flask import Flask, request
 from flask import send_from_directory
 from plotly.io import to_html
@@ -175,6 +177,39 @@ def search():
 
             top = int(top)
             pass
+        
+        '''
+        沒有平行執行，待修復。
+        '''
+        # @asyncio.coroutine
+        # def thread(word, top, size):
+        #     # size = 1000
+        #     table = {
+        #         'default':pandas.read_csv("resource/csv/frequency/{}/default.csv".format(size), na_filter = False),
+        #         'porter':pandas.read_csv("resource/csv/frequency/{}/porter.csv".format(size), na_filter = False)
+        #     }
+        #     group = {
+        #         'default word({}text)'.format(size):[],
+        #         'score({}text)'.format(size):[]
+        #     }    
+        #     for _, item in table['default'].iterrows():
+
+        #         group['default word({}text)'.format(size)] += [item['word']]
+        #         group['score({}text)'.format(size)] += [Levenshtein.distance(word, item['word'])]
+        #         pass
+
+        #     group = pandas.DataFrame(group).sort_values('score({}text)'.format(size)).reset_index(drop=True)    
+        #     group = group.head(top)
+        #     return(group)
+
+        # # loop = asyncio.get_event_loop()
+        # loop = asyncio.new_event_loop()
+        # asyncio.set_event_loop(loop)
+        # task = thread(word, top, size=50000), thread(word, top, size=10000), thread(word, top, size=5000), thread(word, top, size=1000)
+        # group = loop.run_until_complete(asyncio.gather(*task))
+        # summary = [g for g in group]
+        # # print("func_normal()={a}, func_infinite()={b}".format(**vars()))
+        # loop.close()
 
         size = [1000, 5000, 10000, 50000]
         summary = []
@@ -185,18 +220,18 @@ def search():
                 'porter':pandas.read_csv("resource/csv/frequency/{}/porter.csv".format(s), na_filter = False)
             }
             group = {
-                '{}-word'.format(s):[],
-                '{}-score'.format(s):[]
+                'default word({}text)'.format(s):[],
+                'score({}text)'.format(s):[]
             }
-            for _, item in table['default'].iterrows():
+            for _, item in tqdm.tqdm(table['default'].iterrows(), total=len(table['default'])):
 
-                group['{}-word'.format(s)] += [item['word']]
-                group['{}-score'.format(s)] += [Levenshtein.distance(word, item['word'])]
+                group['default word({}text)'.format(s)] += [item['word']]
+                group['score({}text)'.format(s)] += [Levenshtein.distance(word, item['word'])]
                 pass
 
-            group = pandas.DataFrame(group).sort_values('{}-score'.format(s)).reset_index(drop=True)
+            group = pandas.DataFrame(group).sort_values('score({}text)'.format(s)).reset_index(drop=True)
             summary += [group.head(top)]
-            pass
+        pass
 
         summary = pandas.concat(summary,axis=1)
         response = summary.to_html()
