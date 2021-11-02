@@ -9,10 +9,10 @@ import datetime
 import pandas
 import numpy
 from flask import Flask, request
+from flask import send_from_directory
 from plotly.io import to_html
 from plotly import express as plotly
 from plotly.subplots import make_subplots
-from flask import send_from_directory
 
 
 application = Flask(__name__)
