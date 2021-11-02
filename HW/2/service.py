@@ -2,6 +2,8 @@
 
 import extension
 
+
+import os
 import Levenshtein
 import datetime
 import pandas
@@ -10,6 +12,7 @@ from flask import Flask, request
 from plotly.io import to_html
 from plotly import express as plotly
 from plotly.subplots import make_subplots
+from flask import send_from_directory
 
 
 application = Flask(__name__)
@@ -22,12 +25,23 @@ def root():
     return(message)
 
 
+@application.route('/favicon.ico') 
+def favicon():
+
+    response = send_from_directory(
+        os.path.join(application.root_path, 'static'), 
+        'favicon.ico', 
+        mimetype='image/vnd.microsoft.icon'
+    ) 
+    return(response)
+
+
 @application.route("/table", methods=['GET'])
 def table():
     
     if(request.method=='GET'):
 
-        table = pandas.read_csv('resource/csv/group.csv')
+        table = pandas.read_csv('resource/csv/data.csv')
         pass
     
     table = table.to_html()
@@ -119,12 +133,16 @@ def plot():
 
         ##  畫圖。
         picture = {
-            "default":plotly.bar(table['default'].head(top), x='word', y='frequency', labels=dict(word="")),
-            "porter":plotly.bar(table['porter'].head(top), x='word', y='frequency', labels=dict(word="")),
-            "log default":plotly.bar(table['default'].head(top), x='word', y='log frequency', labels=dict(word="")),
-            "log porter":plotly.bar(table['porter'].head(top), x='word', y='log frequency', labels=dict(word=""))
+            "default":plotly.bar(table['default'].head(top), y='frequency', x='word', labels=dict(word="")),
+            "porter":plotly.bar(table['porter'].head(top), y='frequency', x='word', labels=dict(word="")),
+            "log default":plotly.bar(table['default'].head(top), y='log frequency', x='word', labels=dict(word="")),
+            "log porter":plotly.bar(table['porter'].head(top), y='log frequency', x='word', labels=dict(word=""))
         }
-        figure = make_subplots(rows=1, cols=4, subplot_titles=("計算 word 頻率", "計算 word 頻率 by porter 演算法", "log( 計算 word 頻率 )", "log( 計算 word 頻率 by porter 演算法 )"))
+        title = (
+            "計算 word 頻率", "計算 word 頻率 by porter 演算法", 
+            "log( 計算 word 頻率 )", "log( 計算 word 頻率 by porter 演算法 )"
+        )
+        figure = make_subplots(rows=1, cols=4, subplot_titles=title)
         figure.add_trace(picture["default"]['data'][0], row=1, col=1)
         figure.add_trace(picture["porter"]['data'][0], row=1, col=2)
         figure.add_trace(picture["log default"]['data'][0], row=1, col=3)
