@@ -1,0 +1,60 @@
+
+2. term vocabualary
+6. term weight tf-idf, word vector
+
+
+今天要講的是檢索容忍
+Tolerant Retrieval
+拼錯
+
+
+naive dictionary
+Dictionary data structure
+  - hash table，會給每一個字一個整數，一一對應，優點簡單，缺點如果拼錯了，就 GG 了。
+    No prefix search （字根字首，範例：re-...）。
+    字只會越來越多
+  - tree 比較麻煩，樹會越長越大
+    Binary tree
+    B-trees
+    優點：解決了 prefix search 問題。
+    缺點：只能用 bool query ，
+    問：這樣如何存進資料庫？？
+    
+Wild-card queries
+    $:一個字元
+    *:多個字元
+    你怎知道它在哪個位置拼錯字？
+    確認
+    所以是有一張表
+    se*ate
+    fil*er
+    
+Permuterm，舉個例子？
+把所有可能拼錯的可能找出來，找出拼錯的哪個機率最高。
+確認：我可以說對於每個 word ，我用Permuterm可以將所有可能拼錯的結果找出來？
+
+什麼時候用 * 什麼時候用 $ ?
+
+
+Context-sensitive correction 
+一級棒： hit base
+
+
+如果我花 10 個人打造一個產品，可以讓對方花 50 個人來對付，那就是值得的。
+
+Google Trend
+Google Anlaysis
+
+
+作業三
+你可以針對一個你感興趣的主題，降維之後
+避免我跑完了，然後不知道幹啥，這樣很可惜，要練表達你感興趣。
+分析要講出來。
+
+我想找多個主題得來做，我想做的是一個 word cloud 來證明這個方法可以找出不多主題的一些關鍵字是有
+群聚的關係。
+
+
+
+
+

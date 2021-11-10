@@ -1,0 +1,83 @@
+傳統經常內文分析，離不開 zipf 分佈。
+
+
+ 索引跟 query 比對是搜索的關鍵，如何把 query 建立出來？
+ 書本拒絕討論 IR 模型
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 一個專家是要全部都會還是專精一種？
+ 
+ Boolean model 很少在用
+ 
+ 機率模型（課本第四章）
+
+
+ 
+ Boolean model
+古典 IR 模型兩大元素，詞以及詞的加權
+真假值，優點簡單缺點沒有 partial match 。
+無法量化
+
+索引的具體形式有哪些？ 
+ 
+Query as vector 具體範例？
+搜尋欄位你會丟的！
+
+向量的長度如何解釋？
+兩個向量重疊但是長度不一樣。
+
+兩個 D 就是兩個網頁
+
+設定門檻值，誰跟誰比較接近。
+
+「人跟網頁中間有個落差，這個意圖需要用 query 來表示。」
+
+確認
+我能不能說page rank 的功能是 sim measure 的子集？
+進一步包含了上堂課提到 page rank 方法?
+
+確認
+intra-cluster sim : 同類群體裡面差異月小越好
+inter-cluster sim : 不同群體差異月大越好？
+
+
+
+vector 筆 boolen 模型還要好。
+
+Sim measure 範例？
+
+ R｜dj 跟 R_bar｜dj 相加是 1 嗎？
+
+dj｜R 跟 dj｜R_bar 相加渭河不是一？
+
+altertivae 1 渭河相加不是一？
+
+Latent semantic index 就是 word embedding
+
+
+機率模型，我最後獲得什麼我才可以說我得到了這個模型？？
+
+
+
+concpet matching
+相似字，同義字
+
+
+LSI降維、SVD、PCA。
+
+
+我想要知道各位把 詞向量 弄成 word2vec ？
+
+
+
+
+
+
+
+ 
+ 
