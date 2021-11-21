@@ -15,7 +15,7 @@ class tabulation:
     
     def read(self):
 
-        self.table = pandas.read_csv(self.path)#.sample(200, random_state=0)
+        self.table = pandas.read_csv(self.path)
         pass
 
     def load(self, tokenize=None):

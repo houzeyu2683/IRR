@@ -7,7 +7,6 @@ from sklearn.manifold import MDS
 from plotly import express
 from gensim.models.callbacks import CallbackAny2Vec
 
-
 # from plotly.io import to_html
 # from plotly.subplots import make_subplots
 # reduction = machine.reduction

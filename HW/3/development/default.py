@@ -1,21 +1,23 @@
 
 
 import extension
-from plotly.io import to_html
 from plotly.subplots import make_subplots
+
 
 tabulation = extension.tabulation(path='resource/csv/data.csv')
 tabulation.read()
 tabulation.load(tokenize=extension.tokenize)
 tabulation.split()
 tabulation.build(what='dictionary')
+tabulation.table['keyword'].value_counts()
 machine = extension.machine(sentence=tabulation.word)
 picture = {}
 picture['window']    = []
 picture['dimension'] = []
 picture['epoch']     = []
 picture['close']     = []
-tabulation.table['keyword'].value_counts()
+
+
 ##  觀察 window 。
 'CBOW'
 machine.build(by='CBOW', window=1, dimension=50, epoch=5)
@@ -200,41 +202,3 @@ picture['close'][1].write_html("SG.html")
 
 
 
-# import pandas
-# d = pandas.read_csv("resource/csv/chest.csv")
-# d['keyword'] = 'chest'
-# a = pandas.read_csv("resource/csv/data.csv")
-# c = pandas.concat([a,d])
-# c.to_csv("data_.csv",index=False)
-# a['keyword'].unique()
-
-
-# top = 200
-# picture = {
-#     "default":plotly.bar(table['default'].head(top), x='word', y='frequency', labels=dict(word="")),
-#     "porter":plotly.bar(table['porter'].head(top), x='word', y='frequency', labels=dict(word="")),
-#     "log default":plotly.bar(table['default'].head(top), x='word', y='log frequency', labels=dict(word="")),
-#     "log porter":plotly.bar(table['porter'].head(top), x='word', y='log frequency', labels=dict(word=""))
-# }
-# figure = make_subplots(rows=1, cols=4, subplot_titles=("title A", "title B", "title C", "title D"))
-# figure.add_trace(picture["default"]['data'][0], row=1, col=1)
-# figure.add_trace(picture["porter"]['data'][0], row=1, col=2)
-# figure.add_trace(picture["log default"]['data'][0], row=1, col=3)
-# figure.add_trace(picture["log porter"]['data'][0], row=1, col=4)
-# figure.update_layout(height=500, width=1500, title_text="title total")
-# html = to_html(figure)
-# figure.show()
-# import extension
-
-
-# tabulation = extension.tabulation(path='resource/csv/data.csv')
-# tabulation.read()
-# tabulation.load(tokenize=extension.tokenize)
-# tabulation.split()
-# tabulation.build(what='dictionary', )
-# example = [
-#     "The ongoing outbreak of coronavirus disease COVID-19 is significantly implicated by global [] in the genome organization of severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2).",
-#     "heterogeneity"
-# ]
-# sentence = example[0]
-# tabulation.search(sentence=sentence)
