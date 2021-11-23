@@ -131,7 +131,7 @@ class machine:
             else:
 
                 picture = express.scatter(self.reduction, x="x", y="y", text='word', color='type')
-                picture.update_traces(textposition='top center', marker={'size':10}, textfont={'size':15})
+                picture.update_traces(textposition='top center', marker={'size':5}, textfont={'size':10})
                 pass
 
             pass
@@ -147,7 +147,7 @@ class machine:
             else:
 
                 picture = express.scatter_3d(self.reduction, x="x", y="y", z='z', text='word', color='type')
-                picture.update_traces(textposition='top center', marker={'size':10}, textfont={'size':15})
+                picture.update_traces(textposition='top center', marker={'size':5}, textfont={'size':10})
                 pass
 
             pass
