@@ -134,44 +134,44 @@ figure.show()
 
 ##  觀察 epoch 。
 'CBOW'
-machine.build(by='CBOW', window=15, dimension=50, epoch=5)
+machine.build(by='CBOW', window=15, dimension=200, epoch=5)
 machine.load(tokenize=extension.tokenize)
 machine.collect(title=["covid-19", "diabetes", "melanoma", "hypertension", 'chest'], top=30)
 machine.reduce(method="MDS", dimension=2)
 picture['epoch'] += [machine.plot(skip='color')]
-machine.build(by='CBOW', window=15, dimension=50, epoch=10)
+machine.build(by='CBOW', window=15, dimension=200, epoch=10)
 machine.load(tokenize=extension.tokenize)
 machine.collect(title=["covid-19", "diabetes", "melanoma", "hypertension", 'chest'], top=30)
 machine.reduce(method="MDS", dimension=2)
 picture['epoch'] += [machine.plot(skip='color')]
-machine.build(by='CBOW', window=15, dimension=50, epoch=15)
+machine.build(by='CBOW', window=15, dimension=200, epoch=15)
 machine.load(tokenize=extension.tokenize)
 machine.collect(title=["covid-19", "diabetes", "melanoma", "hypertension", 'chest'], top=30)
 machine.reduce(method="MDS", dimension=2)
 picture['epoch'] += [machine.plot(skip='color')]
-machine.build(by='CBOW', window=15, dimension=50, epoch=20)
+machine.build(by='CBOW', window=15, dimension=200, epoch=20)
 machine.load(tokenize=extension.tokenize)
 machine.collect(title=["covid-19", "diabetes", "melanoma", "hypertension", 'chest'], top=30)
 machine.reduce(method="MDS", dimension=2)
 picture['epoch'] += [machine.plot(skip='color')]
 picture['close'] += [machine.plot(skip='')]
 "SG"
-machine.build(by='SG', window=15, dimension=50, epoch=5)
+machine.build(by='SG', window=15, dimension=200, epoch=5)
 machine.load(tokenize=extension.tokenize)
 machine.collect(title=["covid-19", "diabetes", "melanoma", "hypertension", 'chest'], top=30)
 machine.reduce(method="MDS", dimension=2)
 picture['epoch'] += [machine.plot(skip='color')]
-machine.build(by='SG', window=15, dimension=50, epoch=10)
+machine.build(by='SG', window=15, dimension=200, epoch=10)
 machine.load(tokenize=extension.tokenize)
 machine.collect(title=["covid-19", "diabetes", "melanoma", "hypertension", 'chest'], top=30)
 machine.reduce(method="MDS", dimension=2)
 picture['epoch'] += [machine.plot(skip='color')]
-machine.build(by='SG', window=15, dimension=50, epoch=15)
+machine.build(by='SG', window=15, dimension=200, epoch=15)
 machine.load(tokenize=extension.tokenize)
 machine.collect(title=["covid-19", "diabetes", "melanoma", "hypertension", 'chest'], top=30)
 machine.reduce(method="MDS", dimension=2)
 picture['epoch'] += [machine.plot(skip='color')]
-machine.build(by='SG', window=15, dimension=50, epoch=20)
+machine.build(by='SG', window=15, dimension=200, epoch=20)
 machine.load(tokenize=extension.tokenize)
 machine.collect(title=["covid-19", "diabetes", "melanoma", "hypertension", 'chest'], top=30)
 machine.reduce(method="MDS", dimension=2)
@@ -192,8 +192,8 @@ figure.show()
 
 
 ##  根據上述結論在分別從 'CBOW' 與 'SG' 挑一張比較微觀的來看。
-picture['close'][0].update_layout(title_text='CBOW (w:15, d:50, e:20)').show()
-picture['close'][1].update_layout(title_text='SG (w:15, d:50, e:20)').show()
+picture['close'][0].update_layout(title_text='CBOW (w:15, d:200, e:20)').show()
+picture['close'][1].update_layout(title_text='SG (w:15, d:200, e:20)').show()
 
 
 ##  存圖片
