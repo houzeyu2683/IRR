@@ -110,13 +110,13 @@ class machine:
 
             if(skip=='color'):
 
-                picture = express.scatter(self.reduction, x="x", y="y", text='word')
+                picture = express.scatter(self.reduction, x="x", y="y", text='word', width=750, height=750)
                 picture.update_traces(textposition='top center', marker={'size':5}, textfont={'size':10})
                 pass
 
             else:
 
-                picture = express.scatter(self.reduction, x="x", y="y", text='word', color='type')
+                picture = express.scatter(self.reduction, x="x", y="y", text='word', color='type', width=750, height=750)
                 picture.update_traces(textposition='top center', marker={'size':5}, textfont={'size':10})
                 pass
 
