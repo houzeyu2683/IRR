@@ -1,5 +1,5 @@
 
 from .tabulation import *
 from .vocabulary import *
-from .sentence import *
+from .extraction import *
 

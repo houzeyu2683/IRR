@@ -33,17 +33,18 @@ class vocabulary:
         matrix = functools.reduce(lambda x, y: pandas.merge(x, y, how='outer'), matrix).fillna(0)
         self.term      = matrix.term.tolist()
         self.document  = matrix.columns.tolist()[1:]
-        self.frequency = matrix.iloc[:,1:].to_numpy()
+        frequency = matrix.iloc[:,1:].to_numpy()
+        if(True): frequency = (frequency / frequency.sum(axis=0))
+        self.frequency = frequency
         return
 
     def tokenize(self, x='hello word!'):
 
         pattern  = "[" + re.sub("[-]", "", string.punctuation) + ']'
         word = re.sub(pattern, "", x).split()
+        pass
 
-        '''
-        Stemming with porter method.
-        '''
+        ##  Stemming with porter method.
         stemming = True
         if(stemming):
 
@@ -51,9 +52,25 @@ class vocabulary:
             word = [porter.stem(w) for w in word]
             pass
 
+        ##  Remove stopword.
+        if(True):
+
+            collection = []
+            for w in word:
+
+                if(w not in stopword):
+
+                    collection += [w]
+                    pass
+
+                pass
+            
+            word = collection
+            pass
+
         return(word)
 
-    def compute(self, mode='tf-idf'):
+    def transform(self, mode='tf-idf'):
 
         if(mode=='tf-idf'):
 
@@ -61,58 +78,34 @@ class vocabulary:
                 self.frequency.transpose(), 
                 numpy.diag(numpy.log(self.frequency.shape[1] / (self.frequency > 0).sum(axis=1)))
             )
-            # matrix = pandas.DataFrame(matrix).transpose()
-            self.matrix = matrix.transpose()
+            matrix = matrix.transpose()
+            self.matrix = matrix.round(2)
             pass
         
         print('use [self.matrix] to call the weight matrix')
         return
 
+    pass
 
-# matrix = numpy.dot(
-#     self.frequency.transpose(), 
-#     numpy.diag(numpy.log(self.frequency.shape[1] / (self.frequency > 0).sum(axis=1)))
-# )
-# matrix = pandas.DataFrame(matrix).transpose()
-# matrix.columns = self.document
-# matrix.index = self.term
-
-
-# stopword = {
-#     "i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", 
-#     "yourself", "yourselves", "he", "him", "his", "himself",
-#     "she", "her", "hers", "herself", "it", "its", "itself", "they", 
-#     "them", "their", "theirs", "themselves", "what",
-#     "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", 
-#     "was", "were", "be", "been", 
-#     "being", "have", "has", "had", "having", "do", "does", "did", "doing", 
-#     "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", 
-#     "while", "of", "at", "by", "for", "with", "about", "against", "between", 
-#     "into", "through", "during", "before", "after", "above", "below", "to", 
-#     "from", "up", "down", "in", "out", "on", "off", "over", "under", 
-#     "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all",
-#     "any","both","each","few","more","most","other","some","such",
-#     "no","nor","not","only","own","same","so","than", "too", 
-#     "very", "s", "t", "can", "will", "just", "don", "should", "now"
-# }
+stopword = {
+    "i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", 
+    "yourself", "yourselves", "he", "him", "his", "himself",
+    "she", "her", "hers", "herself", "it", "its", "itself", "they", 
+    "them", "their", "theirs", "themselves", "what",
+    "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", 
+    "was", "were", "be", "been", 
+    "being", "have", "has", "had", "having", "do", "does", "did", "doing", 
+    "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", 
+    "while", "of", "at", "by", "for", "with", "about", "against", "between", 
+    "into", "through", "during", "before", "after", "above", "below", "to", 
+    "from", "up", "down", "in", "out", "on", "off", "over", "under", 
+    "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all",
+    "any","both","each","few","more","most","other","some","such",
+    "no","nor","not","only","own","same","so","than", "too", 
+    "very", "s", "t", "can", "will", "just", "don", "should", "now"
+}
 
 
-        # '''
-        # Remove stopword.
-        # '''
-        # if(True):
-
-        #     word = []
-        #     for w in sentence:
-
-        #         if(w not in stopword):
-
-        #             word += [w]
-        #             pass
-
-        #         pass
-            
-        #     pass
 
 
 

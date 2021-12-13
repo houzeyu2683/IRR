@@ -7,9 +7,16 @@ tabulation.table.head()
 
 vocabulary = data.vocabulary()
 vocabulary.build(content=tabulation.table['abstract'], document=tabulation.table['title'])
-vocabulary.compute(mode='tf-idf')
+vocabulary.transform(mode='tf-idf')
 
-data.
+extraction = data.extraction(table=tabulation.table, vocabulary=vocabulary)
+extraction.rank(what='title', top=10)
+
+sentence = extraction.rank(what='sentence', top=5)
+]
 
 
+
+
+sentence[3]
 
