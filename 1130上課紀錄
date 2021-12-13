@@ -1,0 +1,49 @@
+
+分散式索引
+
+分散式概念，就是把一個一個小小機器分散放在不同地方，分散風險而且降低成本。
+
+概念上是買很多廉價機器，堆積起來，分散風險又快。
+
+平行運算
+
+MPI
+
+MapReduce
+
+Hadoop可以分散式計算，接著套用到建立索引的演算法可以加速。
+Hadoop 跟 MySQL(Database)的關係？
+Hadoop 的角色？
+
+Instantiation of the schema for index construction 
+posting 那塊看不懂，舉個例子？
+
+Hadoop 是一個 Library ，可以用在任何語言，目的是將執行的程序平行化。
+
+作業
+在 word2vec 之前都是 tf-idf ， sentence ranking ，句子是證據，把
+
+
+
+
+為何這兩個字相似？是不是證據在句子？把句子找出來或是把文章內容找出來（），說明為何他們靠近。
+
+前面的 index 技術是靜態的觀念。
+Dynamic index : 華而不實的理論。
+ re-index 成本很高又不合理，性能也不好。
+Search engine land 精準行銷
+
+手畫的那張不就說明了 index 是動態在修改了？
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,68 @@
+作業（三）
+Semantic Network => 人與人之間意見太大
+Wiki
+word2vec
+輿情分析
+
+如何建立一個有效率的索引？
+query 左邊學問比較好
+index 是一個大學問
+
+有學問的 index
+Thesaurus : 辭典（區分成專業的非專業的）
+Semantic Network : WordNet
+
+Co-occurrence
+Automatic relevance feedback 技術，使用者可以回饋錯誤。
+
+
+query 的時候， 透過 index 來強化這個 query ，接著在搜尋，就可能找到更廣泛的結果，
+譬如：搜尋滑鼠，可以找到光學滑鼠、靜音滑鼠。
+
+query expansion 技術，查詢的自動化拓展，會對某些用途有幫助。
+用過去的統計量，可能附帶的字，
+
+
+WordNet 可以自動把字填進去。
+也許有一些幫助，但可能也沒有幫助唷！
+
+中文的 WordNet ， HowNet 
+
+
+MeSH
+
+我發現它會有很多的數字。
+
+Google 讓人變笨而且協助他們完成概念的模型。
+
+擔心 google 用久了，改變成沒有創造力。
+
+
+Inverted files
+每篇文章對應到一些關鍵字，每個關鍵字都有加權，
+Vacab Occ table
+
+有兩個議題：
+成本是 Vocab + Occurence 
+
+==> Block addressing
+用頁數來代表上述的 position 。
+ ideo 是我不需要指到正確的位置，我一篇文章切成四頁。
+對於一篇文章會需要一張 table 。
+
+對於每個字都是 unique 為何用 hash ？
+
+Signature files
+
+
+複合索引兩個都用，如何整合使用？
+
+word2 vec 的位置在圖中哪個位置？
+
+
+
+
+
+
+
+
