@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>資料檢索作業展示</title>
+  </head>
+  <body>
+    <h1>資料檢索作業展示</h1>
+    <h3>COVID-19 vs Subject-X</h3>
+    <p>
+        <h3>成員</h3>
+        <li>成員一</li>
+        <li>成員一</li>
+        <li>成員一</li>
+    </p>
+    <form method="post" action='/api/search/'>
+        <input type="text" size="40" name="query" value="my sakin have rash"></input><br>
+        <button>search</button>
+    </form>
+    <p>
+        <b>執行流程</b>
+        <li>輸入的 query 首先會經過 tokenize & remove stopword & Porter stemming ，獲取一些候選的 word 。</li>
+        
+        <li>候選的 word 利用 tf-idf 權重進行排序。</li>
+        <br>
+        <b>功能描述</b>
+        <br>
+        <b>事前準備</b>
+        <li>矩陣 term document matrix 、 tf-idf matrix 準備好備用。</li>
+        <li>詞向量 word2vec 準備好備用</li>
+        <br>
+    </p>
+  </body>
+</html>
+
