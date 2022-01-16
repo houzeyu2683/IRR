@@ -8,18 +8,19 @@ import text
 用來排序呈現檢索結果。
 '''
 
-def search_with_subject(search='rash', top=5):
+class detail:
 
-    class detail:
+    def __init__(self, score=None, content=None, sentence=None, similar=None):
 
-        def __init__(self, score=None, content=None, sentence=None):
-
-            self.score = score
-            self.content = content
-            self.sentence = sentence
-            return
+        self.score = score
+        self.content = content
+        self.sentence = sentence
+        self.similar = similar
+        return
         
-        pass
+    pass
+
+def search_with_subject(search='rash', top=5):
 
     vocabulary = text.vocabulary()
     embedding = text.embedding()
@@ -37,7 +38,9 @@ def search_with_subject(search='rash', top=5):
 
     weight = vocabulary.get('ntf-idf')
     rank = information.copy()
-    for k in [(search, 1)] + embedding.model.wv.similar_by_word(search,top):
+    similar_list = embedding.model.wv.similar_by_word(search,top)
+    similar_word = [k for k, _ in similar_list]
+    for k in [(search, 1)] + similar_list:
 
         w,s = k
         weight[vocabulary.term.index(w),:] = weight[vocabulary.term.index(w),:] * (math.exp(5)*s)
@@ -52,16 +55,18 @@ def search_with_subject(search='rash', top=5):
 
     output = []
     for index, item in rank.iterrows():
-        
+
         d = detail(
             score=item["score"], 
             content=item['abstract'], 
-            sentence={}
+            sentence={},
+            similar = set()
             )
         for s in vocabulary.tokenize(d.content, 'sentence'):
             
             r = [vocabulary.term.index(i) for i in vocabulary.tokenize(s, 'word')]
             d.sentence.update({s:weight[r,index].sum()})
+            d.similar.update(set.intersection(set([vocabulary.term[i] for i in r]), set(similar_word)))
             pass
         
         output.append({item['title_e']:d})
@@ -69,12 +74,13 @@ def search_with_subject(search='rash', top=5):
     
     return(output, rank)
 
-rank_detail, rank_table = search_with_subject(search='organization', top=5)
+rank_detail, _ = search_with_subject(search='organization', top=5)
 
 for i in rank_detail:
     for k, v in i.items():
         # print(i[k].content)
         print(i[k].score)
         print(i[k].sentence)
+        print(i[k].similar)
         pass
     pass
