@@ -28,6 +28,7 @@ def search_with_subject(search='rash', top=5):
     information = pandas.read_csv("./information.csv")
     vocabulary.load(what='frequency matrix', path='./frequency matrix.csv')
     embedding.load(path='./vector.model')
+    search = vocabulary.tokenize(content=search, to='word')[0]
     pass
 
     # search = 'rash'
@@ -68,7 +69,7 @@ def search_with_subject(search='rash', top=5):
     
     return(output, rank)
 
-rank_detail, rank_table = search_with_subject(search='skin', top=5)
+rank_detail, rank_table = search_with_subject(search='organization', top=5)
 
 for i in rank_detail:
     for k, v in i.items():
